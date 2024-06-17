@@ -17,6 +17,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import swati4star.createpdf.R;
 import swati4star.createpdf.database.DatabaseHelper;
@@ -36,6 +38,32 @@ public class SplitPDFUtils {
         mSharedPreferences = PreferenceManager
                 .getDefaultSharedPreferences(mContext);
     }
+
+
+    // Initialize coverage tracking global variable
+    private static Map<String, Boolean> checkRangeValidityCoverage = new HashMap<String, Boolean>() {{
+        put("checkRangeValidity_1", false); // if ranges.length == 0
+        put("checkRangeValidity_2", false); // else ranges.length != 0
+        put("checkRangeValidity_3", false); // if !range.contains("-")
+        put("checkRangeValidity_4", false); // try for parsing single page range
+        put("checkRangeValidity_5", false); // catch for single page range
+        put("checkRangeValidity_6", false); // if startPage > numOfPages || startPage == 0 for single page range
+        put("checkRangeValidity_7", false); // else for hyphenated range
+        put("checkRangeValidity_8", false); // try for parsing hyphenated range
+        put("checkRangeValidity_9", false); // catch NumberFormatException | StringIndexOutOfBoundsException for hyphenated range
+        put("checkRangeValidity_10", false); // if startPage > numOfPages || endPage > numOfPages || startPage == 0 || endPage == 0 for hyphenated range
+        put("checkRangeValidity_11", false); // else if startPage >= endPage for hyphenated range
+        put("checkRangeValidity_12", false); // return
+    }};
+
+    private static Map<String, Boolean> isInputValidCoverage = new HashMap<String, Boolean>() {{
+        put("isInputValid_1", false); // try block
+        put("isInputValid_2", false); // case ERROR_PAGE_NUMBER
+        put("isInputValid_3", false); // case ERROR_PAGE_RANGE
+        put("isInputValid_4", false); // case ERROR_INVALID_INPUT
+        put("isInputValid_5", false); // default case
+        put("isInputValid_6", false); // catch block
+    }};
 
     /**
      * checks if the user entered split ranges are valid or not
@@ -61,41 +89,53 @@ public class SplitPDFUtils {
         int startPage, endPage;
         int returnValue = NO_ERROR;
 
-        if (ranges.length == 0)
+        if (ranges.length == 0) {
+            checkRangeValidityCoverage.put("checkRangeValidity_1", true);
             returnValue = ERROR_INVALID_INPUT;
-        else {
+        } else {
+            checkRangeValidityCoverage.put("checkRangeValidity_2", true);
             for (String range : ranges) {
                 if (!range.contains("-")) {
+                    checkRangeValidityCoverage.put("checkRangeValidity_3", true);
                     try {
                         startPage = Integer.parseInt(range);
+                        checkRangeValidityCoverage.put("checkRangeValidity_4", true);
                     } catch (NumberFormatException e) {
+                        checkRangeValidityCoverage.put("checkRangeValidity_5", true);
                         e.printStackTrace();
                         returnValue = ERROR_INVALID_INPUT;
                         break;
                     }
                     if (startPage > numOfPages || startPage == 0) {
+                        checkRangeValidityCoverage.put("checkRangeValidity_6", true);
                         returnValue = ERROR_PAGE_NUMBER;
                         break;
                     }
                 } else {
+                    checkRangeValidityCoverage.put("checkRangeValidity_7", true);
                     try {
                         startPage = Integer.parseInt(range.substring(0, range.indexOf("-")));
                         endPage = Integer.parseInt(range.substring(range.indexOf("-") + 1));
+                        checkRangeValidityCoverage.put("checkRangeValidity_8", true);
                     } catch (NumberFormatException | StringIndexOutOfBoundsException e) {
+                        checkRangeValidityCoverage.put("checkRangeValidity_9", true);
                         e.printStackTrace();
                         returnValue = ERROR_INVALID_INPUT;
                         break;
                     }
                     if (startPage > numOfPages || endPage > numOfPages || startPage == 0 || endPage == 0) {
+                        checkRangeValidityCoverage.put("checkRangeValidity_10", true);
                         returnValue = ERROR_PAGE_NUMBER;
                         break;
                     } else if (startPage >= endPage) {
+                        checkRangeValidityCoverage.put("checkRangeValidity_11", true);
                         returnValue = ERROR_PAGE_RANGE;
                         break;
                     }
                 }
             }
         }
+        checkRangeValidityCoverage.put("checkRangeValidity_12", true);
         return returnValue;
     }
 
@@ -191,23 +231,29 @@ public class SplitPDFUtils {
      */
     private boolean isInputValid(String path, String[] ranges) {
         try {
+            isInputValidCoverage.put("isInputValid_1", true);
             PdfReader reader = new PdfReader(path);
             int numOfPages = reader.getNumberOfPages();
             int result = checkRangeValidity(numOfPages, ranges);
             switch (result) {
                 case ERROR_PAGE_NUMBER:
+                    isInputValidCoverage.put("isInputValid_2", true);
                     StringUtils.getInstance().showSnackbar(mContext, R.string.error_page_number);
                     break;
                 case ERROR_PAGE_RANGE:
+                    isInputValidCoverage.put("isInputValid_3", true);
                     StringUtils.getInstance().showSnackbar(mContext, R.string.error_page_range);
                     break;
                 case ERROR_INVALID_INPUT:
+                    isInputValidCoverage.put("isInputValid_4", true);
                     StringUtils.getInstance().showSnackbar(mContext, R.string.error_invalid_input);
                     break;
                 default:
+                    isInputValidCoverage.put("isInputValid_5", true);
                     return true;
             }
         } catch (IOException e) {
+            isInputValidCoverage.put("isInputValid_6", true);
             e.printStackTrace();
         }
         return false;
