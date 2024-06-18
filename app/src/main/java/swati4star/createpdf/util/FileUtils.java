@@ -35,6 +35,7 @@ public class FileUtils {
 
     private final Activity mContext;
     private final SharedPreferences mSharedPreferences;
+    public static boolean[] branchCoverage = new boolean[5];
 
     public FileUtils(Activity context) {
         this.mContext = context;
@@ -182,17 +183,41 @@ public class FileUtils {
      * @param mFile           File List of all PDFs
      * @return Number to be added finally in the name to avoid overwrite
      */
-    private int checkRepeat(String finalOutputFile, final List<File> mFile) {
+    public int checkRepeat(String finalOutputFile, final List<File> mFile) {
         boolean flag = true;
         int append = 0;
+
+        if (flag) {
+            branchCoverage[0] = true;
+        }
+
         while (flag) {
             append++;
             String name = finalOutputFile.replace(mContext.getString(R.string.pdf_ext),
                     append + mContext.getString(R.string.pdf_ext));
+
+            if (mFile.contains(new File(name))) {
+                branchCoverage[1] = true;
+            } else {
+                branchCoverage[2] = true;
+            }
+
             flag = mFile.contains(new File(name));
+
+            if (flag) {
+                branchCoverage[3] = true;
+            } else {
+                branchCoverage[4] = true;
+            }
         }
 
         return append;
+    }
+
+    public static void printCoverage() {
+        for (int i = 0; i < branchCoverage.length; i++) {
+            System.out.println("Branch " + i + " was " + (branchCoverage[i] ? "hit" : "not hit"));
+        }
     }
 
     /**

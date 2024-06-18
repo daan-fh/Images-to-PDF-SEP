@@ -17,6 +17,13 @@ import java.util.TimeZone;
 import swati4star.createpdf.util.FileInfoUtils;
 import swati4star.createpdf.util.FileUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import android.app.Activity;
+import swati4star.createpdf.R;
+
+
 @RunWith(MockitoJUnitRunner.class)
 public class FileUtilsTest {
 
@@ -25,6 +32,9 @@ public class FileUtilsTest {
 
     @Mock
     File file;
+
+    @Mock
+    Activity mContext;
 
     @Before
     public void setUp() {
@@ -66,4 +76,88 @@ public class FileUtilsTest {
         assertThat(FileUtils.getFileDirectoryPath(FILE_PATH + FILE_NAME), is(FILE_PATH));
         assertThat(FileUtils.getFileDirectoryPath(""), is(""));
     }
+
+    @Test
+    public void when_FlagIsTrue_Expect_WhileLoopEntered() {
+        String finalOutputFile = "/a/b/c.pdf";
+        List<File> mFile = new ArrayList<>();
+
+        when(mContext.getString(R.string.pdf_ext)).thenReturn(".pdf");
+        FileUtils fileUtils = new FileUtils(mContext);
+
+        fileUtils.checkRepeat(finalOutputFile, mFile);
+
+        assertThat(FileUtils.branchCoverage[0], is(true));
+        FileUtils.printCoverage();
+    }
+
+    @Test
+    public void when_FileExistsInList_Expect_WhileLoopConditionTrue() {
+
+        String finalOutputFile = "/a/b/c.pdf";
+        List<File> mFile = new ArrayList<>();
+        mFile.add(new File("/a/b/c1.pdf"));
+
+        when(mContext.getString(R.string.pdf_ext)).thenReturn(".pdf");
+
+        FileUtils fileUtils = new FileUtils(mContext);
+
+        fileUtils.checkRepeat(finalOutputFile, mFile);
+
+        assertThat(FileUtils.branchCoverage[1], is(true));
+        FileUtils.printCoverage();
+    }
+
+    @Test
+    public void when_FileDoesNotExistInList_Expect_WhileLoopConditionFalse() {
+        String finalOutputFile = "/a/b/c.pdf";
+        List<File> mFile = new ArrayList<>();
+
+        when(mContext.getString(R.string.pdf_ext)).thenReturn(".pdf");
+
+        FileUtils fileUtils = new FileUtils(mContext);
+
+        fileUtils.checkRepeat(finalOutputFile, mFile);
+
+        assertThat(FileUtils.branchCoverage[2], is(true));
+        FileUtils.printCoverage();
+    }
+
+    @Test
+    public void when_FileExistsOnceThenNotExists_Expect_WhileLoopEnteredTwice() {
+
+        String finalOutputFile = "/a/b/c.pdf";
+        List<File> mFile = new ArrayList<>();
+        mFile.add(new File("/a/b/c1.pdf"));
+
+        when(mContext.getString(R.string.pdf_ext)).thenReturn(".pdf");
+
+        FileUtils fileUtils = new FileUtils(mContext);
+
+        fileUtils.checkRepeat(finalOutputFile, mFile);
+
+        assertThat(FileUtils.branchCoverage[1], is(true)); // File exists in the first iteration
+        assertThat(FileUtils.branchCoverage[3], is(true)); // Re-enter the loop
+
+        FileUtils.printCoverage();
+    }
+
+    @Test
+    public void when_FileNeverExists_Expect_WhileLoopConditionFalse() {
+
+        String finalOutputFile = "/a/b/c.pdf";
+        List<File> mFile = new ArrayList<>();
+
+        when(mContext.getString(R.string.pdf_ext)).thenReturn(".pdf");
+
+        FileUtils fileUtils = new FileUtils(mContext);
+
+        fileUtils.checkRepeat(finalOutputFile, mFile);
+
+        assertThat(FileUtils.branchCoverage[2], is(true)); // File never exists
+        assertThat(FileUtils.branchCoverage[4], is(true)); // Exit the loop
+
+        FileUtils.printCoverage();
+    }
+
 }
