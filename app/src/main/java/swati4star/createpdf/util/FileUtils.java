@@ -35,22 +35,20 @@ public class FileUtils {
 
     private final Activity mContext;
     private final SharedPreferences mSharedPreferences;
+    private static final boolean[] branchCoverage = new boolean[5];
 
     public FileUtils(Activity context) {
         this.mContext = context;
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    /**
-     * Extracts file name from the path
-     *
-     * @param path - file path
-     * @return - extracted filename
-     */
     public static String getFileName(String path) {
-        if (path == null)
+        if (path == null) {
+            branchCoverage[0] = true;
             return null;
+        }
 
+        branchCoverage[1] = true;
         int index = path.lastIndexOf(PATH_SEPERATOR);
         return index < path.length() ? path.substring(index + 1) : null;
     }
@@ -88,6 +86,7 @@ public class FileUtils {
      */
     public void printFile(final File file) {
         final PrintDocumentAdapter mPrintDocumentAdapter = new PrintDocumentAdapterHelper(file);
+        branchCoverage[2] = true;
 
         PrintManager printManager = (PrintManager) mContext
                 .getSystemService(Context.PRINT_SERVICE);
@@ -95,6 +94,9 @@ public class FileUtils {
         if (printManager != null) {
             printManager.print(jobName, mPrintDocumentAdapter, null);
             new DatabaseHelper(mContext).insertRecord(file.getAbsolutePath(), mContext.getString(R.string.printed));
+            branchCoverage[3] = true;
+        } else {
+            branchCoverage[4] = true;
         }
     }
 
@@ -401,5 +403,12 @@ public class FileUtils {
     public enum FileType {
         e_PDF,
         e_TXT
+    }
+
+    public static void printCoverage() {
+        for (int i = 0; i < branchCoverage.length; i++) {
+            boolean hit = branchCoverage[i];
+            System.out.println("Branch " + i + " was " + (hit ? "hit" : "not hit"));
+        }
     }
 }
