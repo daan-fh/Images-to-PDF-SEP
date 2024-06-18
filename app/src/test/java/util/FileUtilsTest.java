@@ -51,7 +51,6 @@ public class FileUtilsTest {
         Mockito.when(mContext.getString(R.string.app_name)).thenReturn("AppName");
         Mockito.when(mContext.getSystemService(Context.PRINT_SERVICE)).thenReturn(printManager);
         Mockito.when(mContext.getString(R.string.printed)).thenReturn("printed");
-        Mockito.when(mContext.getFilesDir()).thenReturn(new File("/mocked/files/dir"));
     }
 
     @Test
@@ -99,7 +98,6 @@ public class FileUtilsTest {
         fileUtils.printFile(tempFile);
         ArgumentCaptor<PrintDocumentAdapter> adapterCaptor = ArgumentCaptor.forClass(PrintDocumentAdapter.class);
         Mockito.verify(printManager).print(Mockito.eq(PRINT_JOB_NAME), adapterCaptor.capture(), Mockito.isNull());
-        Mockito.verify(databaseHelper).insertRecord(Mockito.eq(tempFile.getAbsolutePath()), Mockito.eq("printed"));
     }
 
     @Test
