@@ -35,7 +35,7 @@ public class FileUtils {
 
     private final Activity mContext;
     private final SharedPreferences mSharedPreferences;
-    public static boolean[] branchCoverage = new boolean[5];
+    public static boolean[] branchCoverage = new boolean[6];
 
     public FileUtils(Activity context) {
         this.mContext = context;
@@ -372,26 +372,41 @@ public class FileUtils {
         return Intent.createChooser(intent, mContext.getString(R.string.merge_file_select));
     }
 
-    String getUniqueFileName(String fileName) {
+    public File createNewFileInstance(String fileName) {
+        return new File(fileName);
+    }
+
+    public String getUniqueFileName(String fileName) {
         String outputFileName = fileName;
-        File file = new File(outputFileName);
+        File file = createNewFileInstance(outputFileName);
 
-        if (!isFileExist(file.getName()))
+        //Branch 1: Check if file does not exist
+        if (!isFileExist(file.getName())) {
+            branchCoverage[0] = true;
             return outputFileName;
+        }
 
+        branchCoverage[1] = true;
         File parentFile = file.getParentFile();
         if (parentFile != null) {
+            branchCoverage[2] = true;
             File[] listFiles = parentFile.listFiles();
 
             if (listFiles != null) {
+                branchCoverage[3] = true;
                 int append = checkRepeat(outputFileName, Arrays.asList(listFiles));
                 outputFileName = outputFileName.replace(mContext.getString(R.string.pdf_ext),
                         append + mContext.getResources().getString(R.string.pdf_ext));
+            } else {
+                branchCoverage[4] = true;
             }
+        } else {
+            branchCoverage[5] = true;
         }
 
         return outputFileName;
     }
+
 
     /**
      * Opens a Dialog to select a filename.

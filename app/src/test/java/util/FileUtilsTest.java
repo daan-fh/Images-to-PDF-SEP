@@ -2,6 +2,12 @@ package util;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 import static swati4star.createpdf.util.FileUtils.getFileName;
 
@@ -21,6 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
+
 import swati4star.createpdf.R;
 
 
@@ -36,9 +45,38 @@ public class FileUtilsTest {
     @Mock
     Activity mContext;
 
+    @Mock
+    SharedPreferences mSharedPreferences;
+
+    @Mock
+    Resources mockResources;
+
     @Before
     public void setUp() {
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+
+        when(mContext.getString(R.string.pdf_ext)).thenReturn(".pdf");
+        when(mContext.getResources()).thenReturn(mockResources);
+        when(mockResources.getString(R.string.pdf_ext)).thenReturn(".pdf");
+
+        lenient().when(mContext.getSharedPreferences(anyString(), anyInt())).thenReturn(mSharedPreferences);
+        lenient().when(mSharedPreferences.getString(anyString(), anyString())).thenReturn("/mock/path/pdf/");
+    }
+
+    private FileUtils getFileUtilsWithMockedIsFileExist(Activity context, boolean fileExists) {
+        FileUtils fileUtils = spy(new FileUtils(context));
+        doReturn(fileExists).when(fileUtils).isFileExist(anyString());
+        return fileUtils;
+    }
+
+    private File createMockFile(String fileName, File parentFile, File[] listFiles) {
+        File mockFile = mock(File.class);
+        when(mockFile.getName()).thenReturn(fileName);
+        when(mockFile.getParentFile()).thenReturn(parentFile);
+        if (parentFile != null) {
+            when(parentFile.listFiles()).thenReturn(listFiles);
+        }
+        return mockFile;
     }
 
     @Test
@@ -160,4 +198,67 @@ public class FileUtilsTest {
         FileUtils.printCoverage();
     }
 
+    @Test
+    public void when_FileDoesNotExist_Expect_Branch1True() {
+        String fileName = "non_existent_file.pdf";
+        FileUtils fileUtils = getFileUtilsWithMockedIsFileExist(mContext, false);
+
+        fileUtils.getUniqueFileName(fileName);
+
+        assertThat(FileUtils.branchCoverage[0], is(true)); // File does not exist
+        FileUtils.printCoverage();
+    }
+
+    @Test
+    public void when_FileExistsAndParentIsNull_Expect_Branch2And5True() {
+        String fileName = "existent_file.pdf";
+        FileUtils fileUtils = getFileUtilsWithMockedIsFileExist(mContext, true);
+
+        File mockFile = createMockFile(fileName, null, null);
+
+        doReturn(mockFile).when(fileUtils).createNewFileInstance(fileName);
+
+        fileUtils.getUniqueFileName(fileName);
+
+        assertThat(FileUtils.branchCoverage[1], is(true)); // File exists
+        assertThat(FileUtils.branchCoverage[5], is(true)); // Parent is null
+        FileUtils.printCoverage();
+    }
+
+    @Test
+    public void when_FileExistsAndParentExistsButNoListFiles_Expect_Branch2And4True() {
+        String fileName = "existent_file.pdf";
+        FileUtils fileUtils = getFileUtilsWithMockedIsFileExist(mContext, true);
+
+        File mockParentFile = mock(File.class);
+        File mockFile = createMockFile(fileName, mockParentFile, null);
+
+        doReturn(mockFile).when(fileUtils).createNewFileInstance(fileName);
+
+        fileUtils.getUniqueFileName(fileName);
+
+        assertThat(FileUtils.branchCoverage[1], is(true)); // File exists
+        assertThat(FileUtils.branchCoverage[2], is(true)); // Parent exists
+        assertThat(FileUtils.branchCoverage[4], is(true)); // listFiles is null
+        FileUtils.printCoverage();
+    }
+
+    @Test
+    public void when_FileExistsAndParentExistsAndListFilesNotNull_Expect_Branch3True() {
+        String fileName = "existent_file.pdf";
+        FileUtils fileUtils = getFileUtilsWithMockedIsFileExist(mContext, true);
+
+        File mockParentFile = mock(File.class);
+        File[] listFiles = new File[] { new File("/a/b/existent_file1.pdf") };
+        File mockFile = createMockFile(fileName, mockParentFile, listFiles);
+
+        doReturn(mockFile).when(fileUtils).createNewFileInstance(fileName);
+
+        fileUtils.getUniqueFileName(fileName);
+
+        assertThat(FileUtils.branchCoverage[1], is(true)); // File exists
+        assertThat(FileUtils.branchCoverage[2], is(true)); // Parent exists
+        assertThat(FileUtils.branchCoverage[3], is(true)); // listFiles not null
+        FileUtils.printCoverage();
+    }
 }
