@@ -15,8 +15,16 @@ public class FileUriUtils {
     private final String mISDOWNLOADDOC = "com.android.providers.downloads.documents";
     private final String mISMEDIADOC = "com.android.providers.media.documents";
     private final String mISGOOGLEPHOTODOC = "com.google.android.apps.photos.content";
+    public static boolean[] branchCoverage = new boolean[2];
 
     private FileUriUtils() {
+    }
+
+    public static void printCoverage() {
+        for (int i = 0; i < branchCoverage.length; i++) {
+            boolean hit = branchCoverage[i];
+            System.out.println("Branch " + i + " was " + (hit ? "hit" : "not hit"));
+        }
     }
 
     public static FileUriUtils getInstance() {
@@ -46,7 +54,7 @@ public class FileUriUtils {
      *
      * @return - true if document , else false
      */
-    private boolean isDocumentUri(Context mContext, Uri uri) {
+    public boolean isDocumentUri(Context mContext, Uri uri) {
         boolean ret = false;
         if (mContext != null && uri != null) {
             ret = DocumentsContract.isDocumentUri(mContext, uri);
@@ -187,8 +195,15 @@ public class FileUriUtils {
      */
     public String getFilePath(Uri uri) {
         String path = uri.getPath();
-        if (path == null)
+        if (path == null) {
+            branchCoverage[0] = true;
             return null;
+        } else {
+            branchCoverage [1] = true;
+        }
+
+        printCoverage();
+
         path = path.replace("/document/raw:", "");
         return path;
     }

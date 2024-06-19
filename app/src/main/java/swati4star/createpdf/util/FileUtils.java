@@ -35,10 +35,18 @@ public class FileUtils {
 
     private final Activity mContext;
     private final SharedPreferences mSharedPreferences;
+    public static boolean[] branchCoverage = new boolean[4];
 
     public FileUtils(Activity context) {
         this.mContext = context;
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+    }
+
+    public static void printCoverage() {
+        for (int i = 0; i < branchCoverage.length; i++) {
+            boolean hit = branchCoverage[i];
+            System.out.println("Branch " + i + " was " + (hit ? "hit" : "not hit"));
+        }
     }
 
     /**
@@ -277,13 +285,25 @@ public class FileUtils {
      */
     public String stripExtension(String fileNameWithExt) {
         // Handle null case specially.
-        if (fileNameWithExt == null) return null;
+        if (fileNameWithExt == null) {
+            branchCoverage[0] = true;
+            return null;
+        } else {
+            branchCoverage[1] = true;
+        }
 
         // Get position of last '.'.
         int pos = fileNameWithExt.lastIndexOf(".");
 
         // If there wasn't any '.' just return the string as is.
-        if (pos == -1) return fileNameWithExt;
+        if (pos == -1) {
+            branchCoverage[2] = true;
+            return fileNameWithExt;
+        } else {
+            branchCoverage[3] = true;
+        }
+
+        printCoverage();
 
         // Otherwise return the string, up to the dot.
         return fileNameWithExt.substring(0, pos);
