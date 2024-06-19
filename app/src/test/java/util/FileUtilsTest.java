@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.TimeZone;
 
 import swati4star.createpdf.util.FileInfoUtils;
@@ -65,5 +66,17 @@ public class FileUtilsTest {
     public void when_CallingGetFileDirectoryPath_Expect_CorrectValueReturned() {
         assertThat(FileUtils.getFileDirectoryPath(FILE_PATH + FILE_NAME), is(FILE_PATH));
         assertThat(FileUtils.getFileDirectoryPath(""), is(""));
+    }
+
+    @Test
+    public void when_CallingGetUriRealPath_Expect_CorrectValueReturned() {
+
+    }
+
+    @Test
+    public void when_CallingGetLastFileName_Expect_CorrectValueReturned() {
+        ArrayList<String> filesPath = new ArrayList<String>();
+        assertThat(FileUtils.getLastFileName(filesPath), is(""));
+
     }
 }

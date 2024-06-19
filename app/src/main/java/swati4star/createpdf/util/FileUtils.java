@@ -195,6 +195,15 @@ public class FileUtils {
         return append;
     }
 
+    boolean[] branchCoverage = {false, false};
+
+    public static void printCoverage() {
+        for (int i = 0; i < branchCoverage.length; i++) {
+            boolean hit = branchCoverage[i];
+            System.out.println("Branch " + i + " was " + (hit ? "hit" : "not hit"));
+        }
+    }
+
     /**
      * Get real image path from uri.
      *
@@ -202,9 +211,12 @@ public class FileUtils {
      * @return - real path of the image file on device
      */
     public String getUriRealPath(Uri uri) {
-        if (uri == null || FileUriUtils.getInstance().isWhatsappImage(uri.getAuthority()))
+        if (uri == null || FileUriUtils.getInstance().isWhatsappImage(uri.getAuthority())) {
+            branchCoverage[0] = true;
             return null;
+        }
 
+        branchCoverage[1] = true;
         return FileUriUtils.getInstance().getUriRealPathAboveKitkat(mContext, uri);
     }
 
@@ -260,9 +272,12 @@ public class FileUtils {
      * @return fileName with _pdf suffix
      */
     public String getLastFileName(ArrayList<String> filesPath) {
-        if (filesPath.size() == 0)
+        if (filesPath.size() == 0) {
+            branchCoverage[0] = true;
             return "";
+        }
 
+        branchCoverage[1] = true;
         String lastSelectedFilePath = filesPath.get(filesPath.size() - 1);
         String nameWithoutExt = stripExtension(getFileNameWithoutExtension(lastSelectedFilePath));
 
