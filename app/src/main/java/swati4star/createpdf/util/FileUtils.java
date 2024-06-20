@@ -56,9 +56,12 @@ public class FileUtils {
      * @return - extracted filename
      */
     public static String getFileName(String path) {
-        if (path == null)
+        if (path == null) {
+            branchCoverage[0] = true;
             return null;
+        }
 
+        branchCoverage[1] = true;
         int index = path.lastIndexOf(PATH_SEPERATOR);
         return index < path.length() ? path.substring(index + 1) : null;
     }
@@ -96,6 +99,7 @@ public class FileUtils {
      */
     public void printFile(final File file) {
         final PrintDocumentAdapter mPrintDocumentAdapter = new PrintDocumentAdapterHelper(file);
+        branchCoverage[2] = true;
 
         PrintManager printManager = (PrintManager) mContext
                 .getSystemService(Context.PRINT_SERVICE);
@@ -103,6 +107,9 @@ public class FileUtils {
         if (printManager != null) {
             printManager.print(jobName, mPrintDocumentAdapter, null);
             new DatabaseHelper(mContext).insertRecord(file.getAbsolutePath(), mContext.getString(R.string.printed));
+            branchCoverage[3] = true;
+        } else {
+            branchCoverage[4] = true;
         }
     }
 
@@ -190,14 +197,32 @@ public class FileUtils {
      * @param mFile           File List of all PDFs
      * @return Number to be added finally in the name to avoid overwrite
      */
-    private int checkRepeat(String finalOutputFile, final List<File> mFile) {
+    public int checkRepeat(String finalOutputFile, final List<File> mFile) {
         boolean flag = true;
         int append = 0;
+
+        if (flag) {
+            branchCoverage[5] = true;
+        }
+
         while (flag) {
             append++;
             String name = finalOutputFile.replace(mContext.getString(R.string.pdf_ext),
                     append + mContext.getString(R.string.pdf_ext));
+
+            if (mFile.contains(new File(name))) {
+                branchCoverage[6] = true;
+            } else {
+                branchCoverage[7] = true;
+            }
+
             flag = mFile.contains(new File(name));
+
+            if (flag) {
+                branchCoverage[8] = true;
+            } else {
+                branchCoverage[9] = true;
+            }
         }
 
         return append;
@@ -303,8 +328,6 @@ public class FileUtils {
             branchCoverage[3] = true;
         }
 
-        printCoverage();
-
         // Otherwise return the string, up to the dot.
         return fileNameWithExt.substring(0, pos);
     }
@@ -367,26 +390,41 @@ public class FileUtils {
         return Intent.createChooser(intent, mContext.getString(R.string.merge_file_select));
     }
 
-    String getUniqueFileName(String fileName) {
+    public File createNewFileInstance(String fileName) {
+        return new File(fileName);
+    }
+
+    public String getUniqueFileName(String fileName) {
         String outputFileName = fileName;
-        File file = new File(outputFileName);
+        File file = createNewFileInstance(outputFileName);
 
-        if (!isFileExist(file.getName()))
+        //Branch 1: Check if file does not exist
+        if (!isFileExist(file.getName())) {
+            branchCoverage[10] = true;
             return outputFileName;
+        }
 
+        branchCoverage[11] = true;
         File parentFile = file.getParentFile();
         if (parentFile != null) {
+            branchCoverage[12] = true;
             File[] listFiles = parentFile.listFiles();
 
             if (listFiles != null) {
+                branchCoverage[13] = true;
                 int append = checkRepeat(outputFileName, Arrays.asList(listFiles));
                 outputFileName = outputFileName.replace(mContext.getString(R.string.pdf_ext),
                         append + mContext.getResources().getString(R.string.pdf_ext));
+            } else {
+                branchCoverage[14] = true;
             }
+        } else {
+            branchCoverage[15] = true;
         }
 
         return outputFileName;
     }
+
 
     /**
      * Opens a Dialog to select a filename.
