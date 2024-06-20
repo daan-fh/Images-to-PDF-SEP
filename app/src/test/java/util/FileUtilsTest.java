@@ -34,8 +34,6 @@ import swati4star.createpdf.util.FileUtils;
 
 import swati4star.createpdf.R;
 import swati4star.createpdf.database.DatabaseHelper;
-import swati4star.createpdf.util.FileUtils;
-import swati4star.createpdf.util.FileInfoUtils;
 
 import java.util.ArrayList;
 import java.util.List;
