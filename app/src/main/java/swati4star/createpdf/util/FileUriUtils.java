@@ -15,7 +15,7 @@ public class FileUriUtils {
     private final String mISDOWNLOADDOC = "com.android.providers.downloads.documents";
     private final String mISMEDIADOC = "com.android.providers.media.documents";
     private final String mISGOOGLEPHOTODOC = "com.google.android.apps.photos.content";
-    public static boolean[] branchCoverage = new boolean[2];
+    public static boolean[] branchCoverage;
 
     private FileUriUtils() {
     }
@@ -55,10 +55,14 @@ public class FileUriUtils {
      * @return - true if document , else false
      */
     public boolean isDocumentUri(Context mContext, Uri uri) {
+        branchCoverage = new boolean[2];
         boolean ret = false;
         if (mContext != null && uri != null) {
+            branchCoverage[0] = true;
             ret = DocumentsContract.isDocumentUri(mContext, uri);
         }
+        branchCoverage[1] = true;
+        printCoverage();
         return ret;
     }
 
@@ -194,6 +198,8 @@ public class FileUriUtils {
      * @return - path
      */
     public String getFilePath(Uri uri) {
+        branchCoverage = new boolean[2];
+
         String path = uri.getPath();
         if (path == null) {
             branchCoverage[0] = true;

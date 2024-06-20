@@ -35,7 +35,7 @@ public class FileUtils {
 
     private final Activity mContext;
     private final SharedPreferences mSharedPreferences;
-    public static boolean[] branchCoverage = new boolean[20];
+    public static boolean[] branchCoverage = new boolean[22];
 
     public FileUtils(Activity context) {
         this.mContext = context;
@@ -293,12 +293,14 @@ public class FileUtils {
      * @return fileName with _pdf suffix
      */
     public String getLastFileName(ArrayList<String> filesPath) {
-        if (filesPath.size() == 0)
+        if (filesPath.size() == 0) {
+            branchCoverage[10] = true;
             return "";
+        }
 
         String lastSelectedFilePath = filesPath.get(filesPath.size() - 1);
         String nameWithoutExt = stripExtension(getFileNameWithoutExtension(lastSelectedFilePath));
-
+        branchCoverage[11] = true;
         return nameWithoutExt + mContext.getString(R.string.pdf_suffix);
     }
 
@@ -311,10 +313,10 @@ public class FileUtils {
     public String stripExtension(String fileNameWithExt) {
         // Handle null case specially.
         if (fileNameWithExt == null) {
-            branchCoverage[10] = true;
+            branchCoverage[12] = true;
             return null;
         } else {
-            branchCoverage[11] = true;
+            branchCoverage[13] = true;
         }
 
         // Get position of last '.'.
@@ -322,10 +324,10 @@ public class FileUtils {
 
         // If there wasn't any '.' just return the string as is.
         if (pos == -1) {
-            branchCoverage[12] = true;
+            branchCoverage[14] = true;
             return fileNameWithExt;
         } else {
-            branchCoverage[13] = true;
+            branchCoverage[15] = true;
         }
 
         // Otherwise return the string, up to the dot.
@@ -400,26 +402,26 @@ public class FileUtils {
 
         //Branch 1: Check if file does not exist
         if (!isFileExist(file.getName())) {
-            branchCoverage[14] = true;
+            branchCoverage[16] = true;
             return outputFileName;
         }
 
-        branchCoverage[15] = true;
+        branchCoverage[17] = true;
         File parentFile = file.getParentFile();
         if (parentFile != null) {
-            branchCoverage[16] = true;
+            branchCoverage[18] = true;
             File[] listFiles = parentFile.listFiles();
 
             if (listFiles != null) {
-                branchCoverage[17] = true;
+                branchCoverage[19] = true;
                 int append = checkRepeat(outputFileName, Arrays.asList(listFiles));
                 outputFileName = outputFileName.replace(mContext.getString(R.string.pdf_ext),
                         append + mContext.getResources().getString(R.string.pdf_ext));
             } else {
-                branchCoverage[18] = true;
+                branchCoverage[20] = true;
             }
         } else {
-            branchCoverage[19] = true;
+            branchCoverage[21] = true;
         }
 
         return outputFileName;

@@ -27,6 +27,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.TimeZone;
 
 import swati4star.createpdf.util.FileInfoUtils;
@@ -97,6 +98,41 @@ public class FileUtilsTest {
             when(parentFile.listFiles()).thenReturn(listFiles);
         }
         return mockFile;
+    }
+
+    @Test
+    public void testGetLastFileName_NoFiles() {
+        ArrayList<String> emptyList = new ArrayList<>();
+        String result = fileUtils.getLastFileName(emptyList);
+        assertThat(result, is(""));
+    }
+
+    @Test
+    public void testGetLastFileName_SingleFile() {
+        ArrayList<String> singleFileList = new ArrayList<>(Arrays.asList("/path/to/file1.pdf"));
+        String result = fileUtils.getLastFileName(singleFileList);
+        assertThat(result, is("file1_pdf"));
+    }
+
+    @Test
+    public void testGetLastFileName_MultipleFiles() {
+        ArrayList<String> multipleFileList = new ArrayList<>(Arrays.asList("/path/to/file1.pdf", "/path/to/file2.pdf"));
+        String result = fileUtils.getLastFileName(multipleFileList);
+        assertThat(result, is("file2_pdf"));
+    }
+
+    @Test
+    public void testGetLastFileName_FileWithoutExtension() {
+        ArrayList<String> fileWithoutExt = new ArrayList<>(Arrays.asList("/path/to/file1"));
+        String result = fileUtils.getLastFileName(fileWithoutExt);
+        assertThat(result, is("file1_pdf"));
+    }
+
+    @Test
+    public void testGetLastFileName_MixedFiles() {
+        ArrayList<String> mixedFileList = new ArrayList<>(Arrays.asList("/path/to/file1.pdf", "/path/to/file2", "/path/to/file3.doc"));
+        String result = fileUtils.getLastFileName(mixedFileList);
+        assertThat(result, is("file3_pdf"));
     }
 
     @Test
