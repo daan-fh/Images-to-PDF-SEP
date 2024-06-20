@@ -195,10 +195,10 @@ public class FileUtils {
         return append;
     }
 
-    boolean[] branchCoverage = {false, false};
+    public static boolean[] branchCoverage = {false, false};
 
     public static void printCoverage() {
-        for (int i = 0; i < branchCoverage.length; i++) {
+        for (int i = 0; i < 2; i++) {
             boolean hit = branchCoverage[i];
             System.out.println("Branch " + i + " was " + (hit ? "hit" : "not hit"));
         }
@@ -217,6 +217,8 @@ public class FileUtils {
         }
 
         branchCoverage[1] = true;
+
+        printCoverage();
         return FileUriUtils.getInstance().getUriRealPathAboveKitkat(mContext, uri);
     }
 
@@ -280,6 +282,8 @@ public class FileUtils {
         branchCoverage[1] = true;
         String lastSelectedFilePath = filesPath.get(filesPath.size() - 1);
         String nameWithoutExt = stripExtension(getFileNameWithoutExtension(lastSelectedFilePath));
+
+        printCoverage();
 
         return nameWithoutExt + mContext.getString(R.string.pdf_suffix);
     }

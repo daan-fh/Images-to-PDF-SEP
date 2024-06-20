@@ -28,7 +28,7 @@ public class FileUriUtils {
      *
      * @return true if whatsapp image, else false
      */
-    boolean isWhatsappImage(String uriAuthority) {
+    public boolean isWhatsappImage(String uriAuthority) {
         return "com.whatsapp.provider.media".equals(uriAuthority);
     }
 
@@ -125,7 +125,7 @@ public class FileUriUtils {
      * @param uri      - uri of the image
      * @return - real path of the image file on device
      */
-    String getUriRealPathAboveKitkat(Context mContext, Uri uri) {
+    public String getUriRealPathAboveKitkat(Context mContext, Uri uri) {
 
         if (uri == null)
             return null;
