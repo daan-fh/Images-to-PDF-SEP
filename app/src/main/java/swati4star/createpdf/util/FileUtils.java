@@ -35,7 +35,7 @@ public class FileUtils {
 
     private final Activity mContext;
     private final SharedPreferences mSharedPreferences;
-    public static boolean[] branchCoverage = new boolean[6];
+    public static boolean[] branchCoverage = new boolean[11];
 
     public FileUtils(Activity context) {
         this.mContext = context;
@@ -49,9 +49,12 @@ public class FileUtils {
      * @return - extracted filename
      */
     public static String getFileName(String path) {
-        if (path == null)
+        if (path == null) {
+            branchCoverage[0] = true;
             return null;
+        }
 
+        branchCoverage[1] = true;
         int index = path.lastIndexOf(PATH_SEPERATOR);
         return index < path.length() ? path.substring(index + 1) : null;
     }
@@ -89,6 +92,7 @@ public class FileUtils {
      */
     public void printFile(final File file) {
         final PrintDocumentAdapter mPrintDocumentAdapter = new PrintDocumentAdapterHelper(file);
+        branchCoverage[2] = true;
 
         PrintManager printManager = (PrintManager) mContext
                 .getSystemService(Context.PRINT_SERVICE);
@@ -96,6 +100,9 @@ public class FileUtils {
         if (printManager != null) {
             printManager.print(jobName, mPrintDocumentAdapter, null);
             new DatabaseHelper(mContext).insertRecord(file.getAbsolutePath(), mContext.getString(R.string.printed));
+            branchCoverage[3] = true;
+        } else {
+            branchCoverage[4] = true;
         }
     }
 
