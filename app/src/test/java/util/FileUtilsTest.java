@@ -36,12 +36,8 @@ import swati4star.createpdf.util.FileInfoUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-
-import swati4star.createpdf.R;
-
 
 @RunWith(MockitoJUnitRunner.class)
 public class FileUtilsTest {
@@ -166,7 +162,6 @@ public class FileUtilsTest {
         fileUtils.checkRepeat(finalOutputFile, mFile);
 
         assertThat(FileUtils.branchCoverage[0], is(true));
-        FileUtils.printCoverage();
     }
 
     @Test
@@ -183,7 +178,6 @@ public class FileUtilsTest {
         fileUtils.checkRepeat(finalOutputFile, mFile);
 
         assertThat(FileUtils.branchCoverage[1], is(true));
-        FileUtils.printCoverage();
     }
 
     @Test
@@ -198,7 +192,6 @@ public class FileUtilsTest {
         fileUtils.checkRepeat(finalOutputFile, mFile);
 
         assertThat(FileUtils.branchCoverage[2], is(true));
-        FileUtils.printCoverage();
     }
 
     @Test
@@ -217,7 +210,6 @@ public class FileUtilsTest {
         assertThat(FileUtils.branchCoverage[1], is(true)); // File exists in the first iteration
         assertThat(FileUtils.branchCoverage[3], is(true)); // Re-enter the loop
 
-        FileUtils.printCoverage();
     }
 
     @Test
@@ -235,7 +227,6 @@ public class FileUtilsTest {
         assertThat(FileUtils.branchCoverage[2], is(true)); // File never exists
         assertThat(FileUtils.branchCoverage[4], is(true)); // Exit the loop
 
-        FileUtils.printCoverage();
     }
 
     @Test
@@ -246,7 +237,6 @@ public class FileUtilsTest {
         fileUtils.getUniqueFileName(fileName);
 
         assertThat(FileUtils.branchCoverage[0], is(true)); // File does not exist
-        FileUtils.printCoverage();
     }
 
     @Test
@@ -262,7 +252,6 @@ public class FileUtilsTest {
 
         assertThat(FileUtils.branchCoverage[1], is(true)); // File exists
         assertThat(FileUtils.branchCoverage[5], is(true)); // Parent is null
-        FileUtils.printCoverage();
     }
 
     @Test
@@ -280,7 +269,6 @@ public class FileUtilsTest {
         assertThat(FileUtils.branchCoverage[1], is(true)); // File exists
         assertThat(FileUtils.branchCoverage[2], is(true)); // Parent exists
         assertThat(FileUtils.branchCoverage[4], is(true)); // listFiles is null
-        FileUtils.printCoverage();
     }
 
     @Test

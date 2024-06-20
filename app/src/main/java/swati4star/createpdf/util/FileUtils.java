@@ -35,7 +35,7 @@ public class FileUtils {
 
     private final Activity mContext;
     private final SharedPreferences mSharedPreferences;
-    public static boolean[] branchCoverage = new boolean[11];
+    public static boolean[] branchCoverage = new boolean[20];
 
     public FileUtils(Activity context) {
         this.mContext = context;
@@ -195,7 +195,7 @@ public class FileUtils {
         int append = 0;
 
         if (flag) {
-            branchCoverage[0] = true;
+            branchCoverage[5] = true;
         }
 
         while (flag) {
@@ -204,17 +204,17 @@ public class FileUtils {
                     append + mContext.getString(R.string.pdf_ext));
 
             if (mFile.contains(new File(name))) {
-                branchCoverage[1] = true;
+                branchCoverage[6] = true;
             } else {
-                branchCoverage[2] = true;
+                branchCoverage[7] = true;
             }
 
             flag = mFile.contains(new File(name));
 
             if (flag) {
-                branchCoverage[3] = true;
+                branchCoverage[8] = true;
             } else {
-                branchCoverage[4] = true;
+                branchCoverage[9] = true;
             }
         }
 
@@ -389,26 +389,26 @@ public class FileUtils {
 
         //Branch 1: Check if file does not exist
         if (!isFileExist(file.getName())) {
-            branchCoverage[0] = true;
+            branchCoverage[10] = true;
             return outputFileName;
         }
 
-        branchCoverage[1] = true;
+        branchCoverage[11] = true;
         File parentFile = file.getParentFile();
         if (parentFile != null) {
-            branchCoverage[2] = true;
+            branchCoverage[12] = true;
             File[] listFiles = parentFile.listFiles();
 
             if (listFiles != null) {
-                branchCoverage[3] = true;
+                branchCoverage[13] = true;
                 int append = checkRepeat(outputFileName, Arrays.asList(listFiles));
                 outputFileName = outputFileName.replace(mContext.getString(R.string.pdf_ext),
                         append + mContext.getResources().getString(R.string.pdf_ext));
             } else {
-                branchCoverage[4] = true;
+                branchCoverage[14] = true;
             }
         } else {
-            branchCoverage[5] = true;
+            branchCoverage[15] = true;
         }
 
         return outputFileName;
