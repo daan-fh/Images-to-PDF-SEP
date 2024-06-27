@@ -4,6 +4,8 @@
 
 Name: Images-to-PDF-SEP
 
+## Google Doc invite link for the screenshots: https://docs.google.com/document/d/158BowSiT5QaMFer-usnq0UgyifQvprQxw4UP6dNPwhY/edit?usp=sharing
+
 URL: https://github.com/daan-fh/Images-to-PDF-SEP/tree/master 
 
 Number of lines of code and the tool used to count it: 15.1 KLOC and the tool used was Lizard
