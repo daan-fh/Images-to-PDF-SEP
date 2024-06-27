@@ -34,25 +34,39 @@ public class WatermarkUtils {
     private final Activity mContext;
     private final FileUtils mFileUtils;
     private Watermark mWatermark;
+    public static boolean[] branchCoverage = new boolean[6];
 
     public WatermarkUtils(Activity context) {
         mContext = context;
         mFileUtils = new FileUtils(context);
     }
 
+    public static void printCoverage() {
+        for (int i = 0; i < branchCoverage.length; i++) {
+            boolean hit = branchCoverage[i];
+            System.out.println("Branch " + i + " was " + (hit ? "hit" : "not hit"));
+        }
+    }
+
     public static int getStyleValueFromName(String name) {
         switch (name) {
             case "BOLD":
+                branchCoverage[0] = true;
                 return Font.BOLD;
             case "ITALIC":
+                branchCoverage[1] = true;
                 return Font.ITALIC;
             case "UNDERLINE":
+                branchCoverage[2] = true;
                 return Font.UNDERLINE;
             case "STRIKETHRU":
+                branchCoverage[3] = true;
                 return Font.STRIKETHRU;
             case "BOLDITALIC":
+                branchCoverage[4] = true;
                 return Font.BOLDITALIC;
             default:
+                branchCoverage[5] = true;
                 return Font.NORMAL;
         }
     }
