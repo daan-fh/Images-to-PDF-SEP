@@ -1,123 +1,216 @@
-# Images To PDF
+# Report for Assignment 1
 
-### Badges
+## Images to PDF
 
-[![Build Status](https://travis-ci.org/Swati4star/Images-to-PDF.svg?branch=master)](https://travis-ci.org/Swati4star/Images-to-PDF)
-[![Code Climate](https://codeclimate.com/github/Swati4star/Images-to-PDF.svg)](https://codeclimate.com/github/Swati4star/Images-to-PDF)
-[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-PDF%20Converter-blue.svg?style=true)](https://android-arsenal.com/details/3/7132)
+Name: Images-to-PDF-SEP
 
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/app/swati4star.createpdf)
-[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height=
-"80">](https://play.google.com/store/apps/details?id=swati4star.createpdf)
+URL: https://github.com/daan-fh/Images-to-PDF-SEP/tree/master 
 
-Have JPG when you need a PDF? Convert JPG to PDF in a few seconds! :smiley:  
-Here is an easy to use Android app to convert images to PDF file!
+Number of lines of code and the tool used to count it: 15.1 KLOC and the tool used was Lizard
 
-<img src="./screenshots/image_to_pdf2.gif"  width="300px">
+Programming language: Java
 
-### Support Us
+## Coverage measurement
 
-<a href="https://www.buymeacoffee.com/qITGMWB" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
+### Existing tool
+The tool that was used was the in-built coverage tool of Android Studio and it was used by right clicking on the test folder and then clicking on the run with coverage. 
 
-### Features
+<Inform the name of the existing tool that was executed and how it was executed>
 
-- Create PDF from multiple images from camera or gallery
-- View your converted PDFs
-    - Open, Rename, Delete, print, share files
-    - Sort the files order based on a number of options
-    - View File details
-    - Encrypt PDF
-    - Decrypt PDF
-    - Rotate Pages
-- Different themes
-- Merge existing PDFs
-- Split existing PDFs
-- Convert text file to PDFs
-- Compress existing PDF
-- Remove pages from a PDF
-- Rearrange pages of a PDF
-- Extract images from PDF
-- History : View all the PDF related conversions
-
-Here is a home page to get quick access to all the features "PDF Converter" provides:
-
-<img src="./screenshots/0_1_home.png" width="190px"> <img src="./screenshots/0_2_home.png" width="190px">
-
-### Creating a PDF file
-
-##### Step 1 : User can view the PDF files previously created or create a new one!
-
-<img src="./screenshots/1_home.png" width="190px">
-
-##### Step 2 : Select the images
-
-<img src="./screenshots/2_1_camera.png" width="190px"> <img src="./screenshots/2_gallery.png" width="190px">
-
-##### Step 3 : Name the PDF file
-
-<img src="./screenshots/3_rename.png" width="190px">
-
-##### Step 4 : Creating PDF
-
-<img src="./screenshots/4_converting.png" width="190px">
+<Show the coverage results provided by the existing tool with a screenshot>
 
 
-Hurray! PDF files of selected images are created.
+### Your own coverage tool
 
-### Viewing the PDF files
+<The following is supposed to be repeated for each group member>
 
-<img src="./screenshots/5_viewfiles.png" width="190px"> <img src="./screenshots/6_viewfiles_Action.png" width="190px">
+<Arnav>
 
-### Different themes
+Function name: getFilePath
+Link to commit that shows code to gather coverage measurements: https://github.com/Swati4star/Images-to-PDF/commit/9d4a6bd9d3a8924568abefaa5a2c22c0d4d8210b#diff-a0424ad2bc7b675473aebd2059cb6a48b2a7a6cb2bdf857b422386dace8169da  
+<Provide a screenshot of the coverage results output by the instrumentation>
 
-Go to Settings, and you can have three type of themes : Black, Dark and White
 
-Black | Dark | White |
---- | --- | --- |
-<img src="./screenshots/home_theme_black.png" width="190px"> | <img src="./screenshots/home_theme_dark.png" width="190px"> |  <img src="./screenshots/home_theme_white.png" width="190px"> |
 
-### Merge PDF
+Function 2 name: stripExtension
 
-<img src="./screenshots/7_merge_pdf.png" width="190px">
+Link to commit that shows code to gather coverage measurements:
+https://github.com/Swati4star/Images-to-PDF/commit/9d4a6bd9d3a8924568abefaa5a2c22c0d4d8210b#diff-47b812a63fa7e356d9cbf59cc48b1c30372ff82ab63f8e48ac2f98c582b794e4 
 
-### Text to PDF
+<Provide the same kind of information provided for Function 1>
 
-<img src="./screenshots/8_text_to_pdf.png" width="190px">
 
-### History
 
-<img src="./screenshots/9_history.png" width="190px">
+## Coverage improvement
 
-### Contributing
+### Individual tests
 
-#### Dependencies
+<Test 1>
 
-+ [Butterknife](https://jakewharton.github.io/butterknife/)
-+ [Folderpicker](https://github.com/kashifo/android-folder-picker-library)
-+ [Image-cropper](https://github.com/ArthurHub/Android-Image-Cropper)
-+ [iTextG](http://developers.itextpdf.com/itextg-android)
-+ [Lottie](https://github.com/airbnb/lottie-android)
-+ [Matisse](https://github.com/zhihu/Matisse)
-+ [Material Dialogs](https://github.com/afollestad/material-dialogs)
-+ [Material Ripple](https://github.com/balysv/material-ripple)
-+ [Morphing Button](https://github.com/dmytrodanylyk/android-morphing-button)
-+ [Picasso](http://square.github.io/picasso/)
-+ [Picasso-transformations](https://github.com/wasabeef/picasso-transformations)
-+ [PhotoEditor](https://github.com/burhanrashid52/PhotoEditor)
-+ [viewpager-transformers](https://github.com/geftimov/android-viewpager-transformers)
-+ [zxing](https://github.com/zxing/zxing)
+	Link to a commit made to show new/enhanced test: https://github.com/Swati4star/Images-to-PDF/commit/9d4a6bd9d3a8924568abefaa5a2c22c0d4d8210b#diff-f888c18ae9cd385296c717fe1b26d75605402607ede2eb63f1e4275104af8ce4 
 
-#### Code & Issues
+Screenshot of the old coverage results:
 
-If you are a developer and you wish to contribute to the app please fork the project
-and submit a pull request.
-Follow [Github Flow](https://help.github.com/articles/github-flow/) for collaboration!
-If you have any questions, feel free to ask [me](mailto:swati4star@gmail.com) about whatever you
-want.
-[Here](https://github.com/Swati4star/Images-to-PDF/issues) is the list of known issues.
 
-### Project Maintainers
 
-This project is founded and actively maintained by [Swati Garg](https://github.com/Swati4star/). For
-any sort of queries feel free to mail at swati4star@gmail.com.
+
+
+
+Screenshot of the new coverage results: 
+
+
+
+The coverage improved by 100% as beforehand there were no tests made for this function.
+
+<Test 2>
+	Link to a commit made to show new/enhanced test: https://github.com/Swati4star/Images-to-PDF/commit/9d4a6bd9d3a8924568abefaa5a2c22c0d4d8210b#diff-f888c18ae9cd385296c717fe1b26d75605402607ede2eb63f1e4275104af8ce4 
+
+	Screenshot of the old coverage results:
+	
+
+	Screenshot of the new coverage results:
+
+
+
+The coverage improved by 100% as beforehand there were no tests made for this function.
+
+<Daan>
+
+<Function 1 name> getFileName
+
+<Show a patch (diff) or a link to a commit made in your forked repository that shows the instrumented code to gather coverage measurements> https://github.com/daan-fh/Images-to-PDF-SEP/commit/d5f58574e48e465bb4a6609a7baf933ba453ffd4
+
+
+<Provide a screenshot of the coverage results output by the instrumentation>
+
+
+<Function 2 name> printFile
+
+<Provide the same kind of information provided for Function 1> https://github.com/daan-fh/Images-to-PDF-SEP/commit/d5f58574e48e465bb4a6609a7baf933ba453ffd4
+
+
+
+## Coverage improvement
+
+### Individual tests
+
+<Test 1>
+
+<Show a patch (diff) or a link to a commit made in your forked repository that shows the new/enhanced test> https://github.com/daan-fh/Images-to-PDF-SEP/commit/d5f58574e48e465bb4a6609a7baf933ba453ffd4
+
+
+<Provide a screenshot of the old coverage results (the same as you already showed above)>
+
+<Provide a screenshot of the new coverage results>
+
+<State the coverage improvement with a number and elaborate on why the coverage is improved>
+Enhanced this test, to also check for the case that path == null
+Therefore the coverage went from 50% to 100%.
+
+<Test 2>
+
+<Provide the same kind of information provided for Test 1>
+
+
+
+Added these two tests to hit all the branches in the function which improved the coverage from 0% to 100%.
+
+<Byera>
+
+Function name: checkRepeat
+
+Link to commit that shows code to gather coverage measurements: 
+https://github.com/Swati4star/Images-to-PDF/commit/038ad141b6a61718fe88072c029db71f8ee91919
+
+
+
+
+Function name: getUniqueFileName
+
+Link to commit that shows code to gather coverage measurements: 
+https://github.com/Swati4star/Images-to-PDF/commit/d348d7a2ec02a299e97169dbdb252e1da2e8f7ac
+
+
+
+
+## Coverage improvement
+
+### Individual tests
+
+<Test 1>
+
+https://github.com/Swati4star/Images-to-PDF/commit/038ad141b6a61718fe88072c029db71f8ee91919
+
+
+
+
+
+The coverage of the specific function is 100%, which shows a complete coverage of the function.
+
+<Test 2>
+
+https://github.com/Swati4star/Images-to-PDF/commit/d348d7a2ec02a299e97169dbdb252e1da2e8f7ac
+
+
+
+
+
+The coverage of the specific function is 100%, which shows a complete coverage of the function.
+
+<Alec>
+
+Function name: getStyleValueFromName
+
+Link: https://github.com/daan-fh/Images-to-PDF-SEP/commit/cc1d678c5d58b370c3ac82fb03729b74ff3cfbff 
+
+
+
+
+	Function name: getLastFileName
+
+Link: https://github.com/daan-fh/Images-to-PDF-SEP/commit/216057f979a3b411ebfba8758e2ae3915c02b73a 
+
+
+
+## Coverage improvement
+
+### Individual tests
+
+
+<Test 1>
+
+Link: https://github.com/daan-fh/Images-to-PDF-SEP/commit/d57c017fee4316ea93b09b77e3c227693600504a 
+
+
+
+
+
+
+
+As there was no test made for this function, the coverage improvement for this function is 100%.
+
+<Test 2>
+
+Link: https://github.com/daan-fh/Images-to-PDF-SEP/commit/da88757b8e066eef369ddf47ab39e4d684d4c573
+
+
+
+
+As there was no test made for this function, the coverage improvement for this function is 100%.
+
+### Overall
+
+<Provide a screenshot of the old coverage results by running an existing tool (the same as you already showed above)>
+
+
+<Provide a screenshot of the new coverage results by running the existing tool using all test modifications made by the group>
+
+
+## Statement of individual contributions
+
+<Write what each group member did>
+Alec - Implemented the coverage for getLastFileName and getStyleValueFromName and made the tests for both of these functions.
+Arnav - Acquired the number of lines in the project using Lizard and implemented tests for getFilePath in the FileUriUtil file and stripExtention in the FileUtils file.
+Byera - Instrumented the functions checkRepeat and getUniqueFileName. Then made tests respectively which achieved complete branch coverage and hence improving the total coverage.
+Daan - Forked the repo and implemented the coverage for getFileName and printFile. Enhanced and added tests to improve the branch coverage for the functions.
 
